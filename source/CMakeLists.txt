@@ -1,0 +1,32 @@
+
+PROJECT(faces)
+
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+
+# third party libraries
+SET(ROOTPATH /usr/local)
+SET(LIBPATH ${ROOTPATH}/lib)
+SET(INCPATH ${ROOTPATH}/include)
+SET(CV_INCPATH ${INCPATH})
+SET(CV_LIBPATH ${LIBPATH})
+SET(CV_LIBS cv highgui cvaux ml cxcore)
+SET(AWS_INCPATH ${INCPATH})
+SET(AWS_LIBPATH ${LIBPATH})
+SET(AWS_LIBS aws)
+
+# system dependencies
+if (APPLE)
+  SET(CMAKE_CXX_FLAGS "-arch i386")
+endif()
+if (DEBUG)
+  SET(CMAKE_CXX_FLAGS "-g -Wall" ${CMAKE_CXX_FLAGS})
+endif()
+
+SET(SRCS image.cpp aws.cpp yale.cpp main.cpp)
+SET(LIBS ${CV_LIBS} ${AWS_LIBS})
+
+INCLUDE_DIRECTORIES(${CV_INCPATH} ${AWS_INCPATH})
+LINK_DIRECTORIES(${CV_LIBPATH} ${AWS_LIBPATH})
+
+ADD_EXECUTABLE(faces ${SRCS})
+TARGET_LINK_LIBRARIES(faces ${LIBS})
